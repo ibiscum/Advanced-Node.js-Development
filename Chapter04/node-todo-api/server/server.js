@@ -92,6 +92,10 @@ app.patch('/todos/:id',(req, res) => {
    if (body.completed !== undefined && typeof body.completed !== 'boolean') {
      return res.status(400).send({ error: "Invalid 'completed' value." });
    }
+   // Prevent update keys from containing $ or . to block operator injection
+   if (Object.keys(body).some(key => key.startsWith('$') || key.includes('.'))) {
+     return res.status(400).send({ error: "Invalid request property name." });
+   }
    if(!ObjectID.isValid(id)){
      return res.status(404).send();
    }
