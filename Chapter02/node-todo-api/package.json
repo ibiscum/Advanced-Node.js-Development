@@ -2,8 +2,9 @@
   "name": "todo-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "commonjs",
   "scripts": {
+    "connect": "node ./playground/mongodb-connect.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
