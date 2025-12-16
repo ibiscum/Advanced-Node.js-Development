@@ -100,14 +100,20 @@ app.patch('/todos/:id',(req, res) => {
      return res.status(404).send();
    }
 
-   if(_.isBoolean(body.completed) && body.completed) {
-     body.completedAt = new Date().getTime();
+   // Build the $set update object explicitly to prevent operator injection
+   let update = {};
+   if ('text' in body) {
+     update.text = body.text;
+   }
+   if (_.isBoolean(body.completed) && body.completed) {
+     update.completed = true;
+     update.completedAt = new Date().getTime();
    } else {
-     body.completed = false;
-     body.completedAt = null;
+     update.completed = false;
+     update.completedAt = null;
    }
 
-   Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+   Todo.findByIdAndUpdate(id, {$set: update}, {new: true}).then((todo) => {
      if(!todo)
      {
        return res.status(404).send();
