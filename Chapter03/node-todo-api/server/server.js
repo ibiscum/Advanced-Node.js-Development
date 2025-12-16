@@ -1,11 +1,23 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
+// Add express-rate-limit for rate limiting
+var rateLimit = require('express-rate-limit');
+
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
 var app = express();
+
+// Set up rate limiter: max 100 requests per 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
+// Apply rate limiter to all requests
+app.use(limiter);
 
 app.use(bodyParser.json());
 
