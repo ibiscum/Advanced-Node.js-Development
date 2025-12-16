@@ -35,11 +35,12 @@ const getUser = (id) => {
 };
 
 const getGrades = (schoolId) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve(grades.filter((grade) => grade.schoolId === schoolId));
   });
 };
-//83percent
+
+// 83 percent
 const getStatus = (userId) => {
   let user;
   return getUser(userId).then((tempUser) => {
@@ -75,8 +76,8 @@ getStatusAlt(2).then((status) => {
   console.log(e);
 });
 
-// getStatus(2).then((status) => {
-//   console.log(status);
-// }).catch((e) => {
-//   console.log(e);
-// });
+getStatus(2).then((status) => {
+  console.log(status);
+}).catch((e) => {
+  console.log(e);
+});
