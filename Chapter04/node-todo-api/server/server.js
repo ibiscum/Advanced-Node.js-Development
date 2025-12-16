@@ -85,6 +85,13 @@ app.patch('/todos/:id',(req, res) => {
    var id = req.params.id;
    var body = _.pick(req.body, ['text', 'completed']);
 
+   // Validate types to prevent MongoDB injection via query operators
+   if (body.text !== undefined && typeof body.text !== 'string') {
+     return res.status(400).send({ error: "Invalid 'text' value." });
+   }
+   if (body.completed !== undefined && typeof body.completed !== 'boolean') {
+     return res.status(400).send({ error: "Invalid 'completed' value." });
+   }
    if(!ObjectID.isValid(id)){
      return res.status(404).send();
    }
