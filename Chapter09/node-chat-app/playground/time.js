@@ -1,4 +1,4 @@
-var moment = require('moment');
+import moment from 'moment';
 
 // var date = new Date();
 // var months = ['Jan', 'Feb'];
