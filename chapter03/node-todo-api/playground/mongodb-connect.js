@@ -1,33 +1,38 @@
-const {MongoClient, ObjectID} = require('mongodb');
+import { MongoClient } from 'mongodb';
 
-MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
-  if(err){
-    return console.log('Unable to connect MongoDB server');
-  }
-  console.log('Connected to MongoDB server');
-  const db = client.db('TodoApp');
+const client = new MongoClient('mongodb://root:password@localhost:27017/');
+const dbName = 'TodoApp';
 
-  // db.collection('Todos').insertOne({
-  //     text: 'Something to do',
-  //     completed: false
-  //   }, (err, result) => {
-  //     if(err){
-  //       return console.log('Unable to insert todo', err);
-  //     }
-  //     console.log(JSON.stringify(result.ops, undefined, 2));
-  // });
+async function main() {
+  // Use connect method to connect to the server
+  await client.connect();
+  console.log('connected successfully to server');
 
-  //Insert new doc into Users(name, age, loction)
-  // db.collection('Users').insertOne({
-  //     name: 'Andrew',
-  //     age: 25,
-  //     location: 'Philadelphia'
-  //   }, (err, result) => {
-  //     if(err) {
-  //       return console.log('Unable to insert user', err);
-  //     }
-  //     console.log(result.ops[0]._id.getTimestamp());
-  // });
+  const db = client.db(dbName);
+  const todos = db.collection('Todos');
 
-  client.close();
-});
+  let insertResult = await todos.insertOne({
+    text: 'Something to do',
+    completed: false
+  })
+  console.log('Inserted one todo =>', insertResult);
+
+  const users = db.collection('Users');
+
+  insertResult = await users.insertOne(
+    {
+      name: 'Andrew',
+      age: 25,
+      location: 'Philadelphia'
+    }
+  );
+
+  console.log('Inserted one user =>', insertResult);
+
+  return 'done.';
+}
+
+main()
+  .then(console.log)
+  .catch(console.error)
+  .finally(() => client.close());

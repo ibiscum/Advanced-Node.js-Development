@@ -1,3 +1,5 @@
+import jQuery from 'jquery';
+
 var socket = io();
 
 function scrollToBottom () {

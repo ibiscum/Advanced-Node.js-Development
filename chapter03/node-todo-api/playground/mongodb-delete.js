@@ -1,34 +1,34 @@
-const {MongoClient, ObjectID} = require('mongodb');
+import { MongoClient, ObjectId } from 'mongodb';
 
-MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
-  if(err){
-    return console.log('Unable to connect MongoDB server');
-  }
-  console.log('Connected to MongoDB server');
-  const db = client.db('TodoApp');
+const client = new MongoClient('mongodb://root:password@localhost:27017/');
+const dbName = 'TodoApp';
 
-  //deleteMany
-  // db.collection('Todos').deleteMany({text: 'Eat lunch'}).then((result) => {
-  //   console.log(result);
-  // });
+async function main() {
+  // Use connect method to connect to the server
+  await client.connect();
+  console.log('connected successfully to server');
 
-  // //deleteOne
-  // db.collection('Todos').deleteOne({text: 'Eat lunch'}).then((result) => {
-  //   console.log(result);
-  // });
+  const db = client.db(dbName);
+  const todos = db.collection('Todos');
+  const users = db.collection('Users');
 
-  //findOneAndDelete
-  // db.collection('Todos').findOneAndDelete({completed: false}).then((result) => {
-  //   console.log(result);
-  // });
+  let deleteResult = await todos.deleteOne({text: 'Eat lunch'});
+  console.log('Deleted todos =>', deleteResult);
 
-  //db.collection('Users').deleteMany({name: 'Andrew'});
+  deleteResult = await todos.deleteMany({text: 'Eat lunch'});
+  console.log('Deleted todos =>', deleteResult);
 
-  db.collection('Users').findOneAndDelete({
-    _id: new ObjectID("5a86978929ed740ca87e5c31")
-  }).then((results) => {
-    console.log(JSON.stringify(results, undefined, 2));
-  });
+  deleteResult = await todos.findOneAndDelete({completed: false});
+  console.log('Deleted todos =>', JSON.stringify(deleteResult, undefined, 2));
 
-  //client.close();
-});
+  deleteResult = await users.deleteMany({name: 'Andrew'});
+  console.log('Deleted users =>', JSON.stringify(deleteResult, undefined, 2));
+
+  deleteResult = await users.findOneAndDelete({ _id: new ObjectId("5a86978929ed740ca87e5c31")});
+  console.log('Deleted users =>', JSON.stringify(deleteResult, undefined, 2));
+}
+
+main()
+  .then(console.log)
+  .catch(console.error)
+  .finally(() => client.close());

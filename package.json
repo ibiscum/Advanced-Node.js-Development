@@ -24,6 +24,7 @@
   },
   "workspaces":[
     "chapter02/*",
+    "chapter03/*",
     "chapter10"
   ]
 }
