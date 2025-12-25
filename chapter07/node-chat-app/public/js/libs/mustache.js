@@ -34,7 +34,7 @@
   }
 
   function escapeRegExp (string) {
-    return string.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+    return string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
   }
 
   /**
@@ -69,7 +69,7 @@
   };
 
   function escapeHtml (string) {
-    return String(string).replace(/[&<>"'`=\/]/g, function fromEntityMap (s) {
+    return String(string).replace(/[&<>"'`=/]/g, function fromEntityMap (s) {
       return entityMap[s];
     });
   }
@@ -374,7 +374,7 @@
     var cache = this.cache;
 
     var value;
-    if (cache.hasOwnProperty(name)) {
+    if (Object.prototype.hasOwnProperty.call(cache, name)) {
       value = cache[name];
     } else {
       var context = this, names, index, lookupHit = false;
@@ -606,7 +606,7 @@
   // This is here for backwards compatibility with 0.4.x.,
     // eslint wants camel cased function name
   mustache.to_html = function to_html (template, view, partials, send) {
-     
+
 
     var result = mustache.render(template, view, partials);
 

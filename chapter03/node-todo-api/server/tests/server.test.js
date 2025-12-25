@@ -1,8 +1,8 @@
-const expect = require('expect');
-const request = require('supertest');
+import expect from 'expect';
+import request from 'supertest';
 
-const {app} = require('./../server');
-const {Todo} = require('./../models/todo');
+import { app } from './../server.js';
+import { Todo } from './../models/todo.js';
 
 const todos = [{
    text: 'First test todo'

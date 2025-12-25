@@ -1,11 +1,11 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+import express from 'express';
+// import { json } from 'body-parser';
 
 // Add express-rate-limit for rate limiting
-var rateLimit = require('express-rate-limit');
+import rateLimit from 'express-rate-limit';
 
-// var {mongoose} = require('./db/mongoose');
-var {Todo} = require('./models/todo');
+// import mongoose from './db/mongoose.js';
+import Todo from './models/todo.js';
 //var {User} = require('./models/user');
 
 var app = express();
@@ -19,30 +19,30 @@ const limiter = rateLimit({
 // Apply rate limiter to all requests
 app.use(limiter);
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.post('/todos', (req, res) => {
   var todo = new Todo({
-         text: req.body.text
-   });
+    text: req.body.text
+  });
 
-   todo.save().then((doc) => {
-     res.send(doc);
-   }, (e) => {
-     res.status(400).send(e);
-   });
+  todo.save().then((doc) => {
+    res.send(doc);
+  }, (e) => {
+    res.status(400).send(e);
+  });
 });
 
 app.get('/todos', (req, res) => {
-   Todo.find().then((todos) => {
-         res.send({todos});
-   }, (e) => {
-         res.status(400).send(e);
-   });
+  Todo.find().then((todos) => {
+    res.send({ todos });
+  }, (e) => {
+    res.status(400).send(e);
+  });
 });
 
 app.listen(3000, () => {
-   console.log('Started on port 3000');
+  console.log('Started on port 3000');
 });
 
-module.exports = {app};
+export default { app };
