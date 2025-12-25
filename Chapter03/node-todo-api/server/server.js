@@ -4,9 +4,9 @@ var bodyParser = require('body-parser');
 // Add express-rate-limit for rate limiting
 var rateLimit = require('express-rate-limit');
 
-var {mongoose} = require('./db/mongoose');
+// var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
-var {User} = require('./models/user');
+//var {User} = require('./models/user');
 
 var app = express();
 

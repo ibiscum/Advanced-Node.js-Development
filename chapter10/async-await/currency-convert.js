@@ -12,7 +12,7 @@ const getExchangeRate = async (from, to) => {
       throw new Error();
     }
   } catch (e){
-    throw new Error(`Unable to get exchange rate for ${from} and ${to}.`);
+    throw new Error(`Unable to get exchange rate for ${from} and ${to}.`, e.message);
   }
 };
 
@@ -21,7 +21,7 @@ const getCountries = async (currencyCode) => {
     const response = await axios.get(`https://restcountries.eu/rest/v2/currency/${currencyCode}`);
     return response.data.map((country) => country.name);
   } catch (e) {
-    throw new Error(`Unable to get countries that use ${currencyCode}.`);
+    throw new Error(`Unable to get countries that use ${currencyCode}.`, e.message);
   }
 };
 
@@ -36,6 +36,12 @@ const convertCurrency = (from, to, amount) => {
     return `${amount} ${from} is worth ${exchangeAmount} ${to}. ${to} can be used in following countries: ${countries.join(', ')}`;
   });
 };
+
+convertCurrency('USD', 'EUR', 100).then((status) => {
+  console.log(status);
+}).catch((e) => {
+  console.log(e.message);
+});
 
 const convertCurrencyAlt = async(from, to, amount) => {
   const countries = await getCountries(to);

@@ -604,9 +604,9 @@
   };
 
   // This is here for backwards compatibility with 0.4.x.,
-  /*eslint-disable */ // eslint wants camel cased function name
+    // eslint wants camel cased function name
   mustache.to_html = function to_html (template, view, partials, send) {
-    /*eslint-enable*/
+     
 
     var result = mustache.render(template, view, partials);
 
