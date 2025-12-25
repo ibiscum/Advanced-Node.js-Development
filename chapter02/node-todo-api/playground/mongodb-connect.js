@@ -1,7 +1,6 @@
 import { MongoClient } from 'mongodb';
 
 const client = new MongoClient('mongodb://root:password@localhost:27017/');
-
 const dbName = 'TodoApp';
 
 async function main() {

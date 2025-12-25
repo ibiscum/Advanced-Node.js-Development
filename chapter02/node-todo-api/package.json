@@ -7,6 +7,8 @@
   "scripts": {
     "connect": "node ./playground/mongodb-connect.js",
     "delete": "node ./playground/mongodb-delete.js",
+    "find": "node ./playground/mongodb-find.js",
+    "update": "node ./playground/mongodb-update.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
