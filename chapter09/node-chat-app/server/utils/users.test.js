@@ -31,7 +31,7 @@ describe('Users', () => {
     };
     var resUser = users.addUser(user.id, user.name, user.room);
 
-    expect(users.users).toEqual([user]);
+    expect(resUser).toEqual([user]);
   });
 
   it('should remove a user', () => {
