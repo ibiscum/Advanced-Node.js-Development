@@ -1,11 +1,12 @@
 {
-  "name": "todo-api",
+  "name": "@chapter02/node-todo-api",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "private":true,
   "scripts": {
     "connect": "node ./playground/mongodb-connect.js",
+    "delete": "node ./playground/mongodb-delete.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

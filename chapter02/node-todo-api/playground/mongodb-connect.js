@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const client = new MongoClient('mongodb://admin:your_strong_password@localhost:27017/');
+const client = new MongoClient('mongodb://root:password@localhost:27017/');
 
 const dbName = 'TodoApp';
 
@@ -37,4 +37,3 @@ main()
   .then(console.log)
   .catch(console.error)
   .finally(() => client.close());
-

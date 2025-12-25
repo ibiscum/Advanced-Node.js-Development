@@ -23,6 +23,7 @@
     "globals": "^16.5.0"
   },
   "workspaces":[
+    "chapter02/*",
     "chapter10"
   ]
 }
