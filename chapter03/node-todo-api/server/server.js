@@ -4,9 +4,11 @@ import express from 'express';
 // Add express-rate-limit for rate limiting
 import rateLimit from 'express-rate-limit';
 
-// import mongoose from './db/mongoose.js';
-import Todo from './models/todo.js';
+import connectDB from './db/mongoose.js';
+import todoRoutes from './routes/todoRoutes.js';
 //var {User} = require('./models/user');
+
+connectDB();
 
 var app = express();
 
@@ -21,25 +23,7 @@ app.use(limiter);
 
 app.use(express.json());
 
-app.post('/todos', (req, res) => {
-  var todo = new Todo({
-    text: req.body.text
-  });
-
-  todo.save().then((doc) => {
-    res.send(doc);
-  }, (e) => {
-    res.status(400).send(e);
-  });
-});
-
-app.get('/todos', (req, res) => {
-  Todo.find().then((todos) => {
-    res.send({ todos });
-  }, (e) => {
-    res.status(400).send(e);
-  });
-});
+app.use('/api', todoRoutes);
 
 app.listen(3000, () => {
   console.log('Started on port 3000');

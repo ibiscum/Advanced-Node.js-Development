@@ -15,9 +15,11 @@ const todoSchema = new Schema({
   completedAt: {
     type: Number,
     default: null
-  }
-});
+  },
+},
+  { collection: 'Todos' }
+);
 
-const Todo = model('Todo', todoSchema);
+const Todos = model('Todos', todoSchema);
 
-export default Todo;
+export default Todos;

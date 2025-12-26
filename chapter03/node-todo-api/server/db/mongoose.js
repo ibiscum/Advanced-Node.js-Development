@@ -1,6 +1,17 @@
 import mongoose from 'mongoose';
-let { connect } = mongoose;
 
-connect('mongodb://root:password@localhost:27017/TodoApp');
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://localhost:27017/TodoApp', {
+      authSource: "admin",
+      user: "root",
+      pass: "password",
+    });
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection failed:', error.message);
+    process.exit(1);
+  }
+};
 
-export default mongoose;
+export default connectDB;
