@@ -1,4 +1,4 @@
-require('./config/config');
+import config from './config/config.js';
 
 
 const _ = require('lodash');
@@ -9,7 +9,7 @@ var rateLimit = require('express-rate-limit');
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
-var {User} = require('./models/user');
+var {User} = require('./models/user').default;
 
 var app = express();
 const port = process.env.PORT || 3000;

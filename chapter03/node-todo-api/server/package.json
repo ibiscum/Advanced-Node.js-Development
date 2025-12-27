@@ -1,11 +1,11 @@
 {
-  "name": "@chapter03/node-todo-api",
+  "name": "@chapter03/server",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "node server/server.js",
+    "start": "node ./server.js",
     "test": "mocha --exit server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
