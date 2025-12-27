@@ -1,12 +1,10 @@
 import express from 'express';
-// import { json } from 'body-parser';
 
 // Add express-rate-limit for rate limiting
 import rateLimit from 'express-rate-limit';
 
 import connectDB from './db/mongoose.js';
 import todoRoutes from './routes/todoRoutes.js';
-//var {User} = require('./models/user');
 
 connectDB();
 

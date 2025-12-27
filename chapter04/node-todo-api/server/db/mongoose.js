@@ -1,6 +1,17 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI);
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://localhost:27017/TodoApp', {
+      authSource: "admin",
+      user: "root",
+      pass: "password",
+    });
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection failed:', error.message);
+    process.exit(1);
+  }
+};
 
-module.exports = {mongoose};
+export default connectDB;

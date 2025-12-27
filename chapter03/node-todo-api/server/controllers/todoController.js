@@ -1,8 +1,8 @@
-import Todos from '../models/todo.js';
+import Todo from '../models/todo.js';
 
 export const getTodos = async (req, res) => {
   try {
-    const todos = await Todos.find();
+    const todos = await Todo.find();
     console.log(todos);
     res.json(todos);
   } catch (error) {
@@ -20,7 +20,7 @@ export const getTodos = async (req, res) => {
   //    return res.status(400).json({ message: 'User already exists' });
   //  }
 
-   const todo = new Todos({
+   const todo = new Todo({
     text,
     completed,
     completedAt

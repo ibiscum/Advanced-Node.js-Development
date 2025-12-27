@@ -20,6 +20,6 @@ const todoSchema = new Schema({
   { collection: 'Todos' }
 );
 
-const Todos = model('Todos', todoSchema);
+const Todo = model('Todo', todoSchema);
 
-export default Todos;
+export default Todo;

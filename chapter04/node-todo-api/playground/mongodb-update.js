@@ -1,27 +1,31 @@
-const {MongoClient, ObjectID} = require('mongodb');
+import { MongoClient, ObjectId } from 'mongodb';
 
-MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
-  if(err){
-    return console.log('Unable to connect MongoDB server');
-  }
-  console.log('Connected to MongoDB server');
-  const db = client.db('TodoApp');
+const client = new MongoClient('mongodb://root:password@localhost:27017/');
+const dbName = 'TodoApp';
 
+async function main() {
+  // Use connect method to connect to the server
+  await client.connect();
+  console.log('connected successfully to server');
 
-  // db.collection('Todos').findOneAndUpdate({
-  //   _id: new ObjectID('5a86c378baa6685dd161da6e')
-  // }, {
-  //   $set: {
-  //     completed:true
-  //   }
-  // }, {
-  //   returnOriginal: false
-  // }).then((result) => {
-  //   console.log(result);
-  // });
+  const db = client.db(dbName);
+  const todos = db.collection('Todos');
+  const users = db.collection('Users');
 
-  db.collection('Users').findOneAndUpdate({
-    _id: new ObjectID('5a868fa51a01c50c6ac3c1b3')
+  await todos.findOneAndUpdate({
+    _id: new ObjectId('694d705bb014123ddc727efe')
+  }, {
+    $set: {
+      completed: false
+    }
+  }, {
+    returnOriginal: true
+  }).then((result) => {
+    console.log(result);
+  });
+
+  await users.findOneAndUpdate({
+    _id: new ObjectId('694d705bb014123ddc727eff')
   }, {
     $set: {
       name: 'Andrew'
@@ -34,7 +38,41 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   }).then((result) => {
     console.log(result);
   });
+}
+
+main()
+  .then(console.log)
+  .catch(console.error)
+  .finally(() => client.close());
 
 
-  //client.close();
-});
+// db.collection('Todos').findOneAndUpdate({
+//   _id: new ObjectID('5a86c378baa6685dd161da6e')
+// }, {
+//   $set: {
+//     completed:true
+//   }
+// }, {
+//   returnOriginal: false
+// }).then((result) => {
+//   console.log(result);
+// });
+
+//   db.collection('Users').findOneAndUpdate({
+//     _id: new ObjectID('5a868fa51a01c50c6ac3c1b3')
+//   }, {
+//     $set: {
+//       name: 'Andrew'
+//     },
+//     $inc: {
+//       age: 1
+//     }
+//   }, {
+//     returnOriginal: false
+//   }).then((result) => {
+//     console.log(result);
+//   });
+
+
+//   //client.close();
+// });

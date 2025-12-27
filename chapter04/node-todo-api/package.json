@@ -1,9 +1,14 @@
 {
-  "name": "todo-api",
+  "name": "@chapter04/node-todo-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "private":true,
   "scripts": {
+    "connect": "node ./playground/mongodb-connect.js",
+    "delete": "node ./playground/mongodb-delete.js",
+    "find": "node ./playground/mongodb-find.js",
+    "update": "node ./playground/mongodb-update.js",
     "start": "node server/server.js",
     "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
@@ -14,7 +19,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^2.2.1",
     "express": "^5.2.1",
     "lodash": "^4.17.21",
     "mongodb": "^7.0.0",

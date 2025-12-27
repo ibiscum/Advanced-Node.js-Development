@@ -3,13 +3,13 @@ const request = require('supertest');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
-const {ObjectID} = require('mongodb');
+const {ObjectId} = require('mongodb');
 
 const todos = [{
-  _id: new ObjectID(),
+  _id: new ObjectId(),
    text: 'First test todo'
 },{
-  _id: new ObjectID(),
+  _id: new ObjectId(),
    text: 'Second test todo',
    completed: true,
    completedAt: 333
