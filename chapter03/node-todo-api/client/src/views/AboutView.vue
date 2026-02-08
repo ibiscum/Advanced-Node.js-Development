@@ -1,10 +1,10 @@
-<script setup>
-import { createApp, defineComponent, ref } from "vue";
+<script setup lang="ts">
+// import { createApp, defineComponent, ref } from "vue";
 // import type { ColDef } from "ag-grid-community";
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { AgGridVue } from "ag-grid-vue3";
+// import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+// import { AgGridVue } from "ag-grid-vue3";
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+// ModuleRegistry.registerModules([AllCommunityModule]);
 
 // // Row Data Interface
 // interface IRow {
@@ -57,7 +57,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 //     };
 //   },
 // });
-
 </script>
 
 <template>
