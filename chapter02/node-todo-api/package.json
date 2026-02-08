@@ -1,9 +1,9 @@
 {
-  "name": "@chapter02/node-todo-api",
+  "name": "ch02-node-todo-api",
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "private":true,
+  "private": true,
   "scripts": {
     "connect": "node ./playground/mongodb-connect.js",
     "delete": "node ./playground/mongodb-delete.js",
@@ -15,6 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "eslint": "^9.39.2",
-    "mongodb": "^7.0.0"
+    "mongodb": "^7.1.0"
   }
 }
