@@ -1,5 +1,5 @@
 {
-  "name": "@chapter04/node-todo-api",
+  "name": "ch04-node-todo-api",
   "version": "1.0.0",
   "description": "",
   "type": "module",

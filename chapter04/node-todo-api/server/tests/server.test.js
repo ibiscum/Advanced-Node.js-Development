@@ -1,9 +1,9 @@
-const expect = require('expect');
-const request = require('supertest');
+import expect from 'expect';
+import request from 'supertest';
 
-const { app } = require('./../server');
-const { Todo } = require('./../models/todo');
-const { ObjectId } = require('mongodb');
+import app from './../server.js';
+import Todo from './../models/todo.js';
+import ObjectId from 'mongodb';
 
 const todos = [{
   _id: new ObjectId(),
@@ -31,7 +31,7 @@ describe('POST /todos', () => {
       .expect((res) => {
         expect(res.body.text).toBe(text);
       })
-      .end((err, res) => {
+      .end((err) => {
         if (err) {
           return done(err);
         }
@@ -49,7 +49,7 @@ describe('POST /todos', () => {
       .post('/todos')
       .send({})
       .expect(400)
-      .end((err, res) => {
+      .end((err) => {
         if (err) {
           return done(err);
         }
@@ -85,7 +85,7 @@ describe('GET /todos/:id', () => {
   });
 
   it('should return 404 if todo not found', (done) => {
-    var hexId = new ObjectID().toHexString();
+    var hexId = new ObjectId().toHexString();
 
     request(app)
       .get(`/todos/${hexId}`)
@@ -111,7 +111,7 @@ describe('DELETE /todos/:id', () => {
       .expect((res) => {
         expect(res.body.todo._id).toBe(hexId);
       })
-      .end((err, res) => {
+      .end((err) => {
         if (err) {
           return done(err);
         }
@@ -123,7 +123,7 @@ describe('DELETE /todos/:id', () => {
   });
 
   it('should return 404 if todo not found', (done) => {
-    var hexId = new ObjectID().toHexString();
+    var hexId = new ObjectId().toHexString();
 
     request(app)
       .delete(`/todos/${hexId}`)
