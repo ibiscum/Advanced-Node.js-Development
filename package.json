@@ -14,18 +14,12 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "lint": "eslint --fix",
+    "lint": "eslint --fix .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "eslint": "^10.1.0",
-    "globals": "^17.3.0"
-  },
-  "workspaces": [
-    "chapter02/*",
-    "chapter03/node-todo-api/*",
-    "chapter04/*",
-    "chapter10"
-  ]
+    "globals": "^17.4.0"
+  }
 }

@@ -35,7 +35,7 @@
     } else {
       var k;
       for (k in obj) {
-        if (obj.hasOwnProperty(k)) {
+        if (Object.prototype.hasOwnProperty.call(obj, k)) {
           return false;
         }
       }
@@ -544,9 +544,9 @@
       Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
   }
 
-  var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g;
+  var formattingTokens = /(\[[^[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g;
 
-  var localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g;
+  var localFormattingTokens = /(\[[^[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g;
 
   var formatFunctions = {};
 
@@ -656,12 +656,12 @@
 
   // any word (or two) characters or numbers including two/three word month in arabic.
   // includes scottish gaelic two word and hyphenated months
-  var matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i;
+  var matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i;
 
   var regexes = {};
 
   function addRegexToken(token, regex, strictRegex) {
-    regexes[token] = isFunction(regex) ? regex : function (isStrict, localeData) {
+    regexes[token] = isFunction(regex) ? regex : function (isStrict) {
       return (isStrict && strictRegex) ? strictRegex : regex;
     };
   }
@@ -676,13 +676,13 @@
 
   // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
   function unescapeFormat(s) {
-    return regexEscape(s.replace(/\\/g, '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
+    return regexEscape(s.replace(/\\/g, '').replace(/\\(\[)|\\(\])|\[([^\][]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
       return p1 || p2 || p3 || p4;
     }));
   }
 
   function regexEscape(s) {
-    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 
   var tokens = {};
@@ -925,7 +925,7 @@
 
   // LOCALES
 
-  var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
+  var MONTHS_IN_FORMAT = /D[oD]?(\[[^[\]]*\]|\s)+MMMM?/;
   var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
   function localeMonths(m, format) {
     if (!m) {
@@ -1705,7 +1705,7 @@
   addRegexToken('Hmmss', match5to6);
 
   addParseToken(['H', 'HH'], HOUR);
-  addParseToken(['k', 'kk'], function (input, array, config) {
+  addParseToken(['k', 'kk'], function (input, array) {
     var kInput = toInt(input);
     array[HOUR] = kInput === 24 ? 0 : kInput;
   });
@@ -1731,12 +1731,12 @@
     array[SECOND] = toInt(input.substr(pos2));
     getParsingFlags(config).bigHour = true;
   });
-  addParseToken('Hmm', function (input, array, config) {
+  addParseToken('Hmm', function (input, array) {
     var pos = input.length - 2;
     array[HOUR] = toInt(input.substr(0, pos));
     array[MINUTE] = toInt(input.substr(pos));
   });
-  addParseToken('Hmmss', function (input, array, config) {
+  addParseToken('Hmmss', function (input, array) {
     var pos1 = input.length - 4;
     var pos2 = input.length - 2;
     array[HOUR] = toInt(input.substr(0, pos1));
@@ -1827,6 +1827,7 @@
   }
 
   function loadLocale(name) {
+    // eslint-disable-next-line no-useless-assignment
     var oldLocale = null;
     // TODO: Find a better way to register and load all the locales in Node
     if (!locales[name] && (typeof module !== 'undefined') &&
@@ -1836,7 +1837,9 @@
         var aliasedRequire = require;
         aliasedRequire('./locale/' + name);
         getSetGlobalLocale(oldLocale);
-      } catch (e) { }
+      } catch (e) {
+        console.error(e);
+       }
     }
     return locales[name];
   }
@@ -2159,8 +2162,8 @@
 
   // iso 8601 regex
   // 0000-00-00 0000-W00 or 0000-W00-0 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000 or +00)
-  var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
-  var basicIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
+  var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
+  var basicIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
 
   var tzRegex = /Z|[+-]\d\d(?::?\d\d)?/;
 
@@ -2192,7 +2195,7 @@
     ['HH', /\d\d/]
   ];
 
-  var aspNetJsonRegex = /^\/?Date\((\-?\d+)/i;
+  var aspNetJsonRegex = /^\/?Date\((-?\d+)/i;
 
   // date from iso format
   function configFromISO(config) {
@@ -2811,7 +2814,7 @@
   // timezone chunker
   // '+10:00' > ['10',  '00']
   // '-1530'  > ['-15', '30']
-  var chunkOffset = /([\+\-]|\d\d)/gi;
+  var chunkOffset = /([+-]|\d\d)/gi;
 
   function offsetFromString(matcher, string) {
     var matches = (string || '').match(matcher);
@@ -3001,7 +3004,7 @@
   }
 
   // ASP.NET json date format regex
-  var aspNetRegex = /^(\-|\+)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/;
+  var aspNetRegex = /^(-|\+)?(?:(\d*)[. ])?(\d+):(\d+)(?::(\d+)(\.\d*)?)?$/;
 
   // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
   // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
@@ -3029,7 +3032,7 @@
       } else {
         duration.milliseconds = input;
       }
-    } else if (match = aspNetRegex.exec(input)) {
+    } else if (match == aspNetRegex.exec(input)) {
       sign = (match[1] === '-') ? -1 : 1;
       duration = {
         y: 0,
@@ -3039,7 +3042,7 @@
         s: toInt(match[SECOND]) * sign,
         ms: toInt(absRound(match[MILLISECOND] * 1000)) * sign // the millisecond decimal point is included in the match
       };
-    } else if (match = isoRegex.exec(input)) {
+    } else if (match == isoRegex.exec(input)) {
       sign = (match[1] === '-') ? -1 : (match[1] === '+') ? 1 : 1;
       duration = {
         y: parseIso(match[2], sign),
