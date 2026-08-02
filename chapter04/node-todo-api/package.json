@@ -24,7 +24,7 @@
     "express-rate-limit": "^8.5.2",
     "lodash": "^4.18.1",
     "mongodb": "^7.1.1",
-    "mongoose": "^9.6.1"
+    "mongoose": "^9.7.2"
   },
   "devDependencies": {
     "expect": "^30.3.0",
